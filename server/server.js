@@ -6,8 +6,10 @@ const errorHandler = require('./middleware/errorHandler');
 
 // Load env vars
 dotenv.config();
+console.log('Environment loaded, NODE_ENV:', process.env.NODE_ENV);
 
 // Connect to database
+console.log('Initializing database connection...');
 connectDB();
 
 const app = express();

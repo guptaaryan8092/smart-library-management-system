@@ -51,7 +51,6 @@ const bookSchema = new mongoose.Schema(
 );
 
 // Index for faster queries
-bookSchema.index({ serialNo: 1 });
 bookSchema.index({ type: 1, isAvailable: 1 });
 
 module.exports = mongoose.model('Book', bookSchema);
