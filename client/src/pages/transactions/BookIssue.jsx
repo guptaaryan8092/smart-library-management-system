@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar';
+import Layout from '../../components/Layout';
 import axiosInstance from '../../api/axiosInstance';
 
 const BookIssue = () => {
@@ -76,113 +75,101 @@ const BookIssue = () => {
 
     if (!book) {
         return (
-            <div>
-                <Navbar />
-                <div className="flex">
-                    <Sidebar />
-                    <div className="flex-1 p-8">
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                            No book selected. Please search for a book first.
-                        </div>
-                    </div>
+            <Layout>
+                <div className="bg-red-100 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded text-sm">
+                    No book selected. Please search for a book first.
                 </div>
-            </div>
+            </Layout>
         );
     }
 
     return (
-        <div>
-            <Navbar />
-            <div className="flex">
-                <Sidebar />
-                <div className="flex-1 p-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-8">Issue Book</h1>
+        <Layout>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">Issue Book</h1>
 
-                    <div className="bg-white rounded-lg shadow-md p-6 max-w-2xl">
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {error && (
-                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                                    {error}
-                                </div>
-                            )}
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 max-w-2xl">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                    {error && (
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded text-sm">
+                            {error}
+                        </div>
+                    )}
 
-                            <div className="bg-blue-50 p-4 rounded-lg">
-                                <h3 className="font-semibold mb-2">Selected Book</h3>
-                                <p>
-                                    <strong>Title:</strong> {book.title}
-                                </p>
-                                <p>
-                                    <strong>Author:</strong> {book.author}
-                                </p>
-                                <p>
-                                    <strong>Serial No:</strong> {book.serialNo}
-                                </p>
-                            </div>
-
-                            <div>
-                                <label className="block text-gray-700 font-semibold mb-2">
-                                    Issue Date *
-                                </label>
-                                <input
-                                    type="date"
-                                    value={issueDate}
-                                    onChange={(e) => setIssueDate(e.target.value)}
-                                    min={new Date().toISOString().split('T')[0]}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-gray-700 font-semibold mb-2">
-                                    Return Date * (Auto-calculated: 15 days from issue)
-                                </label>
-                                <input
-                                    type="date"
-                                    value={returnDate}
-                                    onChange={(e) => setReturnDate(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    required
-                                />
-                                <p className="text-sm text-gray-600 mt-1">
-                                    Maximum 15 days from issue date
-                                </p>
-                            </div>
-
-                            <div>
-                                <label className="block text-gray-700 font-semibold mb-2">
-                                    Remarks (Optional)
-                                </label>
-                                <textarea
-                                    value={remarks}
-                                    onChange={(e) => setRemarks(e.target.value)}
-                                    rows="3"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Any additional notes..."
-                                />
-                            </div>
-
-                            <div className="flex gap-4">
-                                <button
-                                    type="button"
-                                    onClick={() => navigate(-1)}
-                                    className="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition disabled:opacity-50"
-                                >
-                                    {loading ? 'Issuing...' : 'Issue Book'}
-                                </button>
-                            </div>
-                        </form>
+                    <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+                        <h3 className="font-semibold mb-2 text-sm sm:text-base">Selected Book</h3>
+                        <p className="text-sm">
+                            <strong>Title:</strong> {book.title}
+                        </p>
+                        <p className="text-sm">
+                            <strong>Author:</strong> {book.author}
+                        </p>
+                        <p className="text-sm">
+                            <strong>Serial No:</strong> {book.serialNo}
+                        </p>
                     </div>
-                </div>
+
+                    <div>
+                        <label className="block text-sm sm:text-base text-gray-700 font-semibold mb-2">
+                            Issue Date *
+                        </label>
+                        <input
+                            type="date"
+                            value={issueDate}
+                            onChange={(e) => setIssueDate(e.target.value)}
+                            min={new Date().toISOString().split('T')[0]}
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm sm:text-base text-gray-700 font-semibold mb-2">
+                            Return Date * (Auto-calculated: 15 days from issue)
+                        </label>
+                        <input
+                            type="date"
+                            value={returnDate}
+                            onChange={(e) => setReturnDate(e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                            required
+                        />
+                        <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                            Maximum 15 days from issue date
+                        </p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm sm:text-base text-gray-700 font-semibold mb-2">
+                            Remarks (Optional)
+                        </label>
+                        <textarea
+                            value={remarks}
+                            onChange={(e) => setRemarks(e.target.value)}
+                            rows="3"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                            placeholder="Any additional notes..."
+                        />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                        <button
+                            type="button"
+                            onClick={() => navigate(-1)}
+                            className="px-4 sm:px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition text-sm sm:text-base"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition disabled:opacity-50 text-sm sm:text-base"
+                        >
+                            {loading ? 'Issuing...' : 'Issue Book'}
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
+        </Layout>
     );
 };
 
