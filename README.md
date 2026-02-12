@@ -1,5 +1,7 @@
 # Smart Library Management System
 
+> 🚀 **[Live Demo](https://smart-library-management-system-aryan.vercel.app/)** - Try it now!
+
 A full-stack web application for managing library operations including book/movie cataloging, member management, issue/return tracking, and fine calculation.
 
 ## 🚀 Features
