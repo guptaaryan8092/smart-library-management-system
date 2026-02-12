@@ -62,7 +62,19 @@ const issueBook = asyncHandler(async (req, res) => {
         throw new Error('Return date cannot exceed 15 days from issue date');
     }
 
-    // 5. Check if user has less than 3 active issues
+    // 5. Check for duplicate active issue (same user + same book)
+    const duplicateIssue = await Issue.findOne({
+        userId,
+        bookId,
+        status: 'Issued',
+    });
+
+    if (duplicateIssue) {
+        res.status(400);
+        throw new Error('You have already issued this book. Please return it before issuing again.');
+    }
+
+    // 6. Check if user has less than 3 active issues
     const activeIssues = await Issue.countDocuments({
         userId,
         status: 'Issued',
@@ -171,8 +183,13 @@ const payFine = asyncHandler(async (req, res) => {
         throw new Error('Book has not been returned yet');
     }
 
-    // If there's a fine, mark it as paid
+    // Validate fine payment if fine exists
     if (issue.fineAmount > 0) {
+        const { finePaid } = req.body;
+        if (!finePaid) {
+            res.status(400);
+            throw new Error('Fine must be paid before completing the return');
+        }
         issue.finePaid = true;
     }
 
